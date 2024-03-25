@@ -1,0 +1,30 @@
+{
+  "name": "backend-ecommerce-expressjs",
+  "version": "1.0.0",
+  "description": "backend for ecommerce app react-native",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --inspect src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NhatBui029/backend-ecommerce-react_native.git"
+  },
+  "author": "theodorebui",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NhatBui029/backend-ecommerce-react_native/issues"
+  },
+  "homepage": "https://github.com/NhatBui029/backend-ecommerce-react_native#readme",
+  "dependencies": {
+    "@prisma/client": "^5.11.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.1",
+    "prisma": "^5.11.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.0"
+  }
+}
