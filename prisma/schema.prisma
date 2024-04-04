@@ -7,28 +7,147 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-}
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String? @db.VarChar(10)
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
-}
-
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(20)
+  phone    String    @db.VarChar(10)
+  birthday String    @db.VarChar(10)
+  userId   String    @unique
+  account  Account?
+  address  Address?
+  Comment  Comment[]
+  cart     Cart?
+  orders   Order[]
+}
+
+model Account {
+  id       Int      @id @default(autoincrement())
+  email    String?  @unique @db.VarChar(20)
+  username String?  @db.VarChar(20)
+  password String?  @db.VarChar(20)
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  userId   Int      @unique
+  user     User     @relation(fields: [userId], references: [id])
+}
+
+model Address {
+  id       Int     @id @default(autoincrement())
+  city     String
+  district String
+  ward     String
+  street   String
+  userId   Int     @unique
+  user     User    @relation(fields: [userId], references: [id])
+  orders   Order[]
+}
+
+model Product {
+  id           Int           @id @default(autoincrement())
+  name         String
+  countInStock Int
+  oldPrice     Float
+  newPrice     Float
+  sold         Int
+  rating       Int
+  description  String        @db.VarChar(5000)
+  images       Image[]
+  comments     Comment[]
+  options      Option[]
+  cartDetails  CartDetail[]
+  orderDetails OrderDetail[]
+}
+
+model Image {
+  id        Int     @id @default(autoincrement())
+  url       String? @db.VarChar(500)
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  createAt  DateTime @default(now())
+  updateAt  DateTime @updatedAt
+  content   String   @db.VarChar(500)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+}
+
+model Option {
+  id           Int           @id @default(autoincrement())
+  name         String?       @db.VarChar(20)
+  productId    Int
+  product      Product       @relation(fields: [productId], references: [id])
+  orderDetails OrderDetail[]
+  CartDetail   CartDetail[]
+}
+
+model Cart {
+  id          Int          @id @default(autoincrement())
+  quantity    Int
+  userId      Int          @unique
+  user        User         @relation(fields: [userId], references: [id])
+  cartDetails CartDetail[]
+}
+
+model CartDetail {
+  id        Int     @id @default(autoincrement())
+  quantity  Int
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  cartId    Int
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  optionId  Int
+  option    Option  @relation(fields: [optionId], references: [id])
+
+  @@unique([productId, cartId, optionId])
+}
+
+model Order {
+  id           Int           @id @default(autoincrement())
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id])
+  addressId    Int
+  address      Address       @relation(fields: [addressId], references: [id])
+  paymentsId   Int           @unique
+  payments     Payments      @relation(fields: [paymentsId], references: [id])
+  priceShip    Float
+  priceTotal   Float
+  time         DateTime      @default(now())
+  note         String        @db.VarChar(100)
+  orderDetails OrderDetail[]
+}
+
+model Payments {
+  id             Int            @id @default(autoincrement())
+  method         String
+  paymentsMethod PaymentsMethod @relation(fields: [method], references: [name])
+  paymentsTotal  Float
+  status         Boolean        @default(false)
+  time           DateTime       @default(now())
+  order          Order?
+}
+
+model PaymentsMethod {
+  id          Int        @id @default(autoincrement())
+  name        String?    @unique
+  description String
+  paymentss   Payments[]
+}
+
+model OrderDetail {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  orderId   Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  quantity  Int
+  price     Float
+  optionId  Int
+  option    Option  @relation(fields: [optionId], references: [id])
+
+  @@unique([productId, optionId, orderId])
 }

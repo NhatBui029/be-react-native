@@ -5,10 +5,21 @@ const { PrismaClient } = require('@prisma/client')
 
 const prisma = new PrismaClient()
 
-route.get('/add', async (req, res) => {
+route.get('/addProduct', async (req, res) => {
     try {
-        const newUser = await TestService.addUser();
-        res.send({ mes: newUser })
+        const allProduct = await TestService.addProduct();
+        res.send({ mes: allProduct })
+    } catch (e) {
+        console.error(e.message)
+        await prisma.$disconnect()
+        process.exit(1)
+    }
+});
+
+route.get('/getAll', async (req, res) => {
+    try {
+        const newUser = await TestService.getAllUser();
+        res.json(newUser)
     } catch (e) {
         console.error(e.message)
         await prisma.$disconnect()
