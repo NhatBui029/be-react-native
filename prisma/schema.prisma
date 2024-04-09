@@ -10,8 +10,8 @@ datasource db {
 model User {
   id       Int       @id @default(autoincrement())
   name     String    @db.VarChar(20)
-  phone    String    @db.VarChar(10)
-  birthday String    @db.VarChar(10)
+  phone    String    @db.VarChar(12)
+  birthday String    @db.VarChar(40)
   userId   String    @unique
   account  Account?
   address  Address?
@@ -32,14 +32,11 @@ model Account {
 }
 
 model Address {
-  id       Int     @id @default(autoincrement())
-  city     String
-  district String
-  ward     String
-  street   String
-  userId   Int     @unique
-  user     User    @relation(fields: [userId], references: [id])
-  orders   Order[]
+  id      Int     @id @default(autoincrement())
+  address String  @db.VarChar(200)
+  userId  Int     @unique
+  user    User    @relation(fields: [userId], references: [id])
+  orders  Order[]
 }
 
 model Product {
@@ -79,6 +76,7 @@ model Comment {
 model Option {
   id           Int           @id @default(autoincrement())
   name         String?       @db.VarChar(20)
+  quantity     Int           @default(0)
   productId    Int
   product      Product       @relation(fields: [productId], references: [id])
   orderDetails OrderDetail[]

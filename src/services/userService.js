@@ -17,7 +17,7 @@ module.exports = {
                         password: password
                     }
                 },
-                cart:{
+                cart: {
                     create: {
                         quantity: 0
                     }
@@ -34,5 +34,73 @@ module.exports = {
                 userId: userId
             }
         })
+    },
+    getInfoUser: async (id) => {
+        return await prisma.user.findFirst({
+            select: {
+                id: true,
+                name: true,
+                phone: true,
+                birthday: true,
+                address: {
+                    select: {
+                        address: true,
+                    }
+                },
+                account: {
+                    select: {
+                        email: true,
+                        username: true,
+                        password: true
+                    }
+                }
+            },
+            where: {
+                id: parseInt(id)
+            }
+        })
+    },
+    editAccount: async (userId, username, password, email) => {
+        return await prisma.account.update({
+            where: {
+                userId: userId
+            },
+            data: {
+                email: email,
+                username: username,
+                password: password
+            }
+        })
+    },
+    editInfo: async (userId, name, phone, birthday, address) => {
+        return await prisma.user.update({
+            where: {
+                id: userId
+            },
+            data: {
+                name: name,
+                phone: phone,
+                birthday: birthday,
+                address: {
+                    update: {
+                        where: { userId: userId },
+                        data: { address: address }
+                    }
+                }
+            }
+        })
+    },
+    getAddressByUserId: async (userId) => {
+        return await prisma.address.findFirst({
+            where: { userId: userId }
+        });
+    },
+    createAddress: async (userId, address) => {
+        return await prisma.address.create({
+            data: {
+                userId: userId,
+                address: address
+            }
+        });
     }
 }

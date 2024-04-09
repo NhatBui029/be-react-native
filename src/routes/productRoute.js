@@ -21,6 +21,7 @@ route.get('/getById/:id', async (req, res) => {
     try {   
         const productId = req.params.id;
         const product = await productService.getProductById(productId);
+        res.set('Access-Control-Allow-Origin', '*');
         res.json(product)
     } catch (e) {
         console.error(e.message)

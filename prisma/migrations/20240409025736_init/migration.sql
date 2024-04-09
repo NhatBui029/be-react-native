@@ -2,8 +2,8 @@
 CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(20) NOT NULL,
-    `phone` VARCHAR(10) NOT NULL,
-    `birthday` VARCHAR(10) NOT NULL,
+    `phone` VARCHAR(12) NOT NULL,
+    `birthday` VARCHAR(40) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `User_userId_key`(`userId`),
@@ -28,10 +28,7 @@ CREATE TABLE `Account` (
 -- CreateTable
 CREATE TABLE `Address` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `city` VARCHAR(191) NOT NULL,
-    `district` VARCHAR(191) NOT NULL,
-    `ward` VARCHAR(191) NOT NULL,
-    `street` VARCHAR(191) NOT NULL,
+    `address` VARCHAR(200) NOT NULL,
     `userId` INTEGER NOT NULL,
 
     UNIQUE INDEX `Address_userId_key`(`userId`),
@@ -77,6 +74,7 @@ CREATE TABLE `Comment` (
 CREATE TABLE `Option` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(20) NULL,
+    `quantity` INTEGER NOT NULL DEFAULT 0,
     `productId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
