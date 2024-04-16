@@ -49,7 +49,9 @@ module.exports = {
                 options: {
                     select: {
                         id: true,
-                        name: true
+                        name: true,
+                        countInStock: true,
+                        sold: true
                     }
                 }
             },

@@ -10,7 +10,7 @@ route.get('/getById/:id', async (req, res) => {
         res.set('Access-Control-Allow-Origin', '*');
         const optionId = req.params.id;
         const option = await optionService.getOptionById(optionId);
-        res.json(option.name)
+        res.json(option)
     } catch (e) {
         console.error(e.message)
         await prisma.$disconnect()

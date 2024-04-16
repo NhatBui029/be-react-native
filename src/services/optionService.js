@@ -6,7 +6,9 @@ module.exports = {
     getOptionById: async (optionId) => {
         return await prisma.option.findFirst({
             select: {
-                name: true
+                name: true,
+                countInStock: true,
+                sold: true
             },
             where:{
                 id: parseInt(optionId)

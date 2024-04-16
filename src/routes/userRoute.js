@@ -5,10 +5,11 @@ const userService = require('../services/userService');
 
 const prisma = new PrismaClient()
 
-route.post('/add', async (req, res) => {
+route.post('/register', async (req, res) => {
     try {
         const { email, username, password, userId } = req.body;
         const newUser = await userService.addUser(email, username, password, userId);
+        console.log('new user: ',newUser)
         res.send({ mes: newUser })
     } catch (e) {
         console.error(e.message)

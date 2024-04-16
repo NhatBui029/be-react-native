@@ -74,7 +74,8 @@ CREATE TABLE `Comment` (
 CREATE TABLE `Option` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(20) NULL,
-    `quantity` INTEGER NOT NULL DEFAULT 0,
+    `countInStock` INTEGER NOT NULL DEFAULT 0,
+    `sold` INTEGER NOT NULL DEFAULT 0,
     `productId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
